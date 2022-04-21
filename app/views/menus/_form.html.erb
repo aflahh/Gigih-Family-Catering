@@ -11,11 +11,11 @@
 <% end %>
 <div class="mb-3">
   <%= form.label :name, class: "form-label"%>
-  <%= form.text_field :name, class: "form-control", placeholder: "Name"%>
+  <%= form.text_field :name, class: "form-control", placeholder: "Name", required: true%>
 </div>
 <div class="mb-3">
   <%= form.label :price, class: "form-label"%>
-  <%= form.text_field :price, class: "form-control", placeholder: "Price"%>
+  <%= form.text_field :price, class: "form-control", placeholder: "Price", required: true%>
 </div>
 <div class="mb-3">
   <%= form.label :description, class: "form-label"%>
@@ -23,7 +23,7 @@
 </div>
 <div class="mb-3">
 <%= form.label "Category"%>
-    <%= collection_check_boxes(:menu, :category_ids, Category.all, :id, :name) do |f| %>
+    <%= form.collection_check_boxes :category_ids, Category.all, :id, :name, include_hidden: false do |f| %>
 
     <div class="form-check">
     <%= f.check_box class: "form-check-input" %>

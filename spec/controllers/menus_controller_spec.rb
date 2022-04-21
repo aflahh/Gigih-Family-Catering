@@ -4,6 +4,7 @@ RSpec.describe MenusController, type: :controller do
   describe 'GET #index' do
     context 'with params[:letter]' do
       it "populates an array of menus starting with the letter" do
+        FactoryBot.create(:category)
         nasi_goreng = FactoryBot.create(:menu, name: "Nasi Goreng")
         telur = FactoryBot.create(:menu, name: "Telur")
         get :index, params: { letter: 'Go' }
@@ -18,6 +19,7 @@ RSpec.describe MenusController, type: :controller do
 
     context 'without params[:letter]' do
       it "populates an array of all menus" do 
+        FactoryBot.create(:category)
         nasi_goreng = FactoryBot.create(:menu, name: "Nasi Goreng")
         mie_goreng = FactoryBot.create(:menu, name: "Mie Goreng")
         get :index
@@ -33,12 +35,14 @@ RSpec.describe MenusController, type: :controller do
   
   describe 'GET #show' do
     it "assigns the requested menu to @menu" do
+      FactoryBot.create(:category)
       menu = FactoryBot.create(:menu)
       get :show, params: { id: menu }
       expect(assigns(:menu)).to eq menu
     end
 
     it "renders the :show template" do
+      FactoryBot.create(:category)
       menu = FactoryBot.create(:menu)
       get :show, params: { id: menu }
       expect(response).to render_template :show
@@ -59,12 +63,14 @@ RSpec.describe MenusController, type: :controller do
 
   describe 'GET #edit' do
     it "assigns the requested menu to @menu" do
+      FactoryBot.create(:category)
       menu = FactoryBot.create(:menu)
       get :edit, params: { id: menu }
       expect(assigns(:menu)).to eq menu
     end
 
     it "renders the :edit template" do
+      FactoryBot.create(:category)
       menu = FactoryBot.create(:menu)
       get :edit, params: { id: menu }
       expect(response).to render_template :edit
@@ -74,26 +80,30 @@ RSpec.describe MenusController, type: :controller do
   describe 'POST #create' do
     context "with valid attributes" do
       it "saves the new menu in the database" do
+        FactoryBot.create(:category)
         expect{
-          post :create, params: { menu: attributes_for(:menu, category_ids: ["1", "2"]) }
+          post :create, params: { menu: attributes_for(:menu, category_ids: [1]) }
         }.to change(Menu, :count).by(1)
       end
 
       it "redirects to menus#show" do
-        post :create, params: { menu: attributes_for(:menu, category_ids: ["1", "2"]) }
+        FactoryBot.create(:category)
+        post :create, params: { menu: attributes_for(:menu, category_ids: [1]) }
         expect(response).to redirect_to(menu_path(assigns[:menu]))
       end
     end
     
     context "with invalid attributes" do
       it "does not save the new menu in the database" do
+        FactoryBot.create(:category)
         expect{
-          post :create, params: { menu: attributes_for(:menu, name: nil, category_ids: ["1", "2"]) }
+          post :create, params: { menu: attributes_for(:menu, name: nil, category_ids: [1]) }
         }.not_to change(Menu, :count)
       end
 
       it "re-renders the :new template" do
-        post :create, params: { menu: attributes_for(:menu, name: nil, category_ids: ["1", "2"]) }
+        FactoryBot.create(:category)
+        post :create, params: { menu: attributes_for(:menu, name: nil, category_ids: [1]) }
         expect(response).to render_template :new
       end
     end
@@ -101,35 +111,36 @@ RSpec.describe MenusController, type: :controller do
   
   describe 'PATCH #update' do
     before :each do
+      FactoryBot.create(:category)
       @menu = FactoryBot.create(:menu)
     end
 
     context "with valid attributes" do
       it "locates the requested @menu" do
-        patch :update, params: { id: @menu, menu: attributes_for(:menu, name: 'Nasi Uduk', category_ids: ["1", "2"]) }
+        patch :update, params: { id: @menu, menu: attributes_for(:menu, name: 'Nasi Uduk') }
         expect(assigns(:menu)).to eq @menu
       end
 
       it "changes @menu's attributes" do
-        patch :update, params: { id: @menu, menu: attributes_for(:menu, name: 'Nasi Uduk', category_ids: ["1", "2"]) }
+        patch :update, params: { id: @menu, menu: attributes_for(:menu, name: 'Nasi Uduk') }
         @menu.reload
         expect(@menu.name).to eq('Nasi Uduk')
       end
 
       it "redirects to the menu" do
-        patch :update, params: { id: @menu, menu: attributes_for(:menu, category_ids: ["1", "2"]) }
+        patch :update, params: { id: @menu, menu: attributes_for(:menu) }
         expect(response).to redirect_to @menu
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save the updated menu in the database' do
-        patch :update, params: { id: @menu, menu: attributes_for(:menu, name: 'Nasi Uduk', price: "Test", category_ids: ["1", "2"]) }
+        patch :update, params: { id: @menu, menu: attributes_for(:menu, name: 'Nasi Uduk', price: "Test") }
         expect(@menu.name).not_to eq('Nasi Uduk')
       end
 
       it 're-renders the edit template' do
-        patch :update, params: { id: @menu, menu: attributes_for(:menu, name: nil, category_ids: ["1", "2"]) }
+        patch :update, params: { id: @menu, menu: attributes_for(:menu, name: nil) }
         expect(assigns(:menu)).to eq @menu
         expect(response).to have_http_status(:unprocessable_entity)
       end
@@ -138,6 +149,7 @@ RSpec.describe MenusController, type: :controller do
   
   describe 'DELETE #destroy' do
     before :each do
+      FactoryBot.create(:category)
       @menu = FactoryBot.create(:menu)
     end
 

@@ -8,33 +8,33 @@ RSpec.describe MenuCategory, type: :model do
     expect(FactoryBot.build(:menu_category)).to be_valid
   end
 
-  it 'is valid with category_id and menu_id' do
+  it 'is valid with category and menu' do
     FactoryBot.create(:category)
     FactoryBot.create(:menu)
     
     expect(FactoryBot.build(:menu_category)).to be_valid
   end
 
-  it 'is invalid without category_id' do
+  it 'is invalid without category' do
     FactoryBot.create(:category)
     FactoryBot.create(:menu)
     
-    menu_category = FactoryBot.build(:menu_category, category_id: nil)
+    menu_category = FactoryBot.build(:menu_category, category: nil)
     
     menu_category.valid?
     
-    expect(menu_category.errors[:category_id]).to include("can't be blank")
+    expect(menu_category.errors[:category]).to include("can't be blank")
   end
 
-  it 'is invalid without menu_id' do
+  it 'is invalid without menu' do
     FactoryBot.create(:category)
     FactoryBot.create(:menu)
     
-    menu_category = FactoryBot.build(:menu_category, menu_id: nil)
+    menu_category = FactoryBot.build(:menu_category, menu: nil)
     
     menu_category.valid?
     
-    expect(menu_category.errors[:menu_id]).to include("can't be blank")
+    expect(menu_category.errors[:menu]).to include("can't be blank")
   end
 
   it 'belongs to Category' do
