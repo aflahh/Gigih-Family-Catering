@@ -75,12 +75,12 @@ RSpec.describe MenusController, type: :controller do
     context "with valid attributes" do
       it "saves the new menu in the database" do
         expect{
-          post :create, params: { menu: attributes_for(:menu) }
+          post :create, params: { menu: attributes_for(:menu, category_ids: ["1", "2"]) }
         }.to change(Menu, :count).by(1)
       end
 
       it "redirects to menus#show" do
-        post :create, params: { menu: attributes_for(:menu) }
+        post :create, params: { menu: attributes_for(:menu, category_ids: ["1", "2"]) }
         expect(response).to redirect_to(menu_path(assigns[:menu]))
       end
     end
@@ -88,12 +88,12 @@ RSpec.describe MenusController, type: :controller do
     context "with invalid attributes" do
       it "does not save the new menu in the database" do
         expect{
-          post :create, params: { menu: attributes_for(:menu, name: nil) }
+          post :create, params: { menu: attributes_for(:menu, name: nil, category_ids: ["1", "2"]) }
         }.not_to change(Menu, :count)
       end
 
       it "re-renders the :new template" do
-        post :create, params: { menu: attributes_for(:menu, name: nil) }
+        post :create, params: { menu: attributes_for(:menu, name: nil, category_ids: ["1", "2"]) }
         expect(response).to render_template :new
       end
     end
@@ -106,30 +106,30 @@ RSpec.describe MenusController, type: :controller do
 
     context "with valid attributes" do
       it "locates the requested @menu" do
-        patch :update, params: { id: @menu, menu: attributes_for(:menu) }
+        patch :update, params: { id: @menu, menu: attributes_for(:menu, name: 'Nasi Uduk', category_ids: ["1", "2"]) }
         expect(assigns(:menu)).to eq @menu
       end
 
       it "changes @menu's attributes" do
-        patch :update, params: { id: @menu, menu: attributes_for(:menu, name: 'Nasi Uduk') }
+        patch :update, params: { id: @menu, menu: attributes_for(:menu, name: 'Nasi Uduk', category_ids: ["1", "2"]) }
         @menu.reload
         expect(@menu.name).to eq('Nasi Uduk')
       end
 
       it "redirects to the menu" do
-        patch :update, params: { id: @menu, menu: attributes_for(:menu) }
+        patch :update, params: { id: @menu, menu: attributes_for(:menu, category_ids: ["1", "2"]) }
         expect(response).to redirect_to @menu
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save the updated menu in the database' do
-        patch :update, params: { id: @menu, menu: attributes_for(:menu, name: 'Nasi Uduk', price: "Test") }
+        patch :update, params: { id: @menu, menu: attributes_for(:menu, name: 'Nasi Uduk', price: "Test", category_ids: ["1", "2"]) }
         expect(@menu.name).not_to eq('Nasi Uduk')
       end
 
       it 're-renders the edit template' do
-        patch :update, params: { id: @menu, menu: attributes_for(:menu, name: nil) }
+        patch :update, params: { id: @menu, menu: attributes_for(:menu, name: nil, category_ids: ["1", "2"]) }
         expect(assigns(:menu)).to eq @menu
         expect(response).to have_http_status(:unprocessable_entity)
       end

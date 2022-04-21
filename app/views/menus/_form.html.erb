@@ -1,0 +1,36 @@
+<%= form_with(model: menu) do |form| %>
+<% if menu.errors.any? %>
+<div class="container bg-danger text-light">
+  <h3><%= pluralize(menu.errors.count, "error") %> prohibited this menu from being saved:</h3>
+  <ul>
+    <% menu.errors.each do |error| %>
+    <li><%= error.full_message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<div class="mb-3">
+  <%= form.label :name, class: "form-label"%>
+  <%= form.text_field :name, class: "form-control", placeholder: "Name"%>
+</div>
+<div class="mb-3">
+  <%= form.label :price, class: "form-label"%>
+  <%= form.text_field :price, class: "form-control", placeholder: "Price"%>
+</div>
+<div class="mb-3">
+  <%= form.label :description, class: "form-label"%>
+  <%= form.text_area :description, class: "form-control", placeholder: "Description"%>
+</div>
+<div class="mb-3">
+<%= form.label "Category"%>
+    <%= collection_check_boxes(:menu, :category_ids, Category.all, :id, :name) do |f| %>
+
+    <div class="form-check">
+    <%= f.check_box class: "form-check-input" %>
+      <%= f.label class: "form-label" %>
+   </div>
+<% end %>
+</div>
+<%= form.submit 'Submit', class: "btn btn-sm btn-outline-primary mb-3"%>
+<%= link_to "Back", menus_path, class: "btn btn-sm btn-outline-secondary mb-3 ms-3" %>
+<% end %>
