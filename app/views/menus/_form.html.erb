@@ -22,14 +22,13 @@
   <%= form.text_area :description, class: "form-control", placeholder: "Description"%>
 </div>
 <div class="mb-3">
-<%= form.label "Category"%>
-    <%= form.collection_check_boxes :category_ids, Category.all, :id, :name, include_hidden: false do |f| %>
-
-    <div class="form-check">
+  <%= form.label "Category", class: "form-label"%>
+  <%= form.collection_check_boxes :category_ids, Category.all, :id, :name, include_hidden: false do |f| %>
+  <div class="form-check">
     <%= f.check_box class: "form-check-input" %>
-      <%= f.label class: "form-label" %>
-   </div>
-<% end %>
+    <%= f.label class: "form-label" %>
+  </div>
+  <% end %>
 </div>
 <%= form.submit 'Submit', class: "btn btn-sm btn-outline-primary mb-3"%>
 <%= link_to "Back", menus_path, class: "btn btn-sm btn-outline-secondary mb-3 ms-3" %>

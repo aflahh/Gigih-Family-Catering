@@ -10,8 +10,8 @@
     </div>
     <div class="col-3">
       <%= form_with url: menus_path, method: :get, class: "d-flex" do |form| %>
-        <%= form.text_field :letter, class: "form-control form-control-sm me-2", placeholder: "Search"%>
-        <%= form.submit 'Submit', class: "btn btn-sm btn-outline-success"%>
+      <%= form.text_field :letter, class: "form-control form-control-sm me-2", placeholder: "Name"%>
+      <%= form.submit 'Search', class: "btn btn-sm btn-outline-success"%>
       <% end %>
     </div>
   </div>
@@ -22,7 +22,6 @@
         <th>Name</th>
         <th>Price</th>
         <th>Description</th>
-        <th>Category</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -33,7 +32,6 @@
         <td><%= menu.name %></td>
         <td><%= menu.price %></td>
         <td><%= menu.description %></td>
-        <td><%= menu.categories.collect(&:name).join(', ') %></td>
         <td><%= link_to "Details", menu_path(menu.id), class: "btn btn-sm btn-outline-secondary" %></td>
       </tr>
       <% end %>

@@ -1,0 +1,39 @@
+<h1 class="text-center">Add New Customer Order</h1>
+<div class="my-5 d-flex justify-content-center">
+  <div class="col-8 container shadow py-3">
+    <%= form_with(model: @customer_order) do |form| %>
+    <% if @customer_order.errors.any? %>
+    <div class="container bg-danger text-light">
+      <h3><%= pluralize(@customer_order.errors.count, "error") %> prohibited this customer order from being saved:</h3>
+      <ul>
+        <% @customer_order.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
+    <div class="mb-3">
+      <%= form.label :name, class: "form-label"%>
+      <%= form.text_field :name, class: "form-control", placeholder: "Name", required: true%>
+    </div>
+    <div class="mb-3">
+      <%= form.label :email, class: "form-label"%>
+      <%= form.email_field :email, class: "form-control", placeholder: "Email Address", required: true%>
+    </div>
+    <%= form.label "Menu", class: "form-label"%>
+    <% Menu.all.each do |m| %>
+    <%= form.fields_for :order_details do |order_detail_form| %>
+    <div class="mb-3">
+      <%= order_detail_form.label m.name, class: "form-label"%>
+      <%= order_detail_form.number_field :qty, in: 0..100, class: "form-control", value: 0 %>
+      <%= order_detail_form.hidden_field :menu_id, value: m.id %>
+      <%= order_detail_form.hidden_field :price, value: m.price %>
+    </div>
+    <% end %>
+    <% end %>
+    <%= form.hidden_field :status, value: "NEW"%>
+    <%= form.submit 'Submit', class: "btn btn-sm btn-outline-primary mb-3"%>
+    <%= link_to "Back", customer_orders_path, class: "btn btn-sm btn-outline-secondary mb-3 ms-3" %>
+    <% end %>
+  </div>
+</div>

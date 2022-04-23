@@ -41,7 +41,7 @@ class MenusController < ApplicationController
     @menu = Menu.find(params[:id])
     @menu.destroy
     
-    redirect_to(menus_url)
+    redirect_to(menus_path)
   end
 
   def menu_params

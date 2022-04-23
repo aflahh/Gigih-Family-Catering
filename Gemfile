@@ -9,6 +9,7 @@ gem "rails", "~> 7.0.1"
 # Add Bootstrap and jQuery
 gem 'bootstrap', '~> 5.1.3'
 gem 'jquery-rails'
+gem 'bootstrap-table-rails', '~> 1.19', '>= 1.19.1'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
